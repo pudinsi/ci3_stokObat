@@ -1,0 +1,10 @@
+git config --global user.email "@gmail.com"
+git config --global user.name "pudin"
+
+git init 
+git add .
+git commit -m "Commit Pertama"
+git branch -M main
+git remote add origin https://github.com/pudinsi/ci3_stokObat.git
+git pull origin main
+git push -f -u origin main
