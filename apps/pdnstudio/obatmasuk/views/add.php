@@ -22,7 +22,7 @@
 								<select name="kode" id="pDn_Select1" class="form-control">
 									<?php foreach ($dtobat as $obat) {
 									?>
-										<option value="<?= $obat->obat_kode; ?>"><?= $obat->obat_kode; ?> | <?= $obat->obat_nama; ?></option>
+										<option value="<?= $obat->obat_kode; ?>"><?= $obat->obat_kode; ?> | <?= $obat->obat_nama; ?> ( Stok : <?= $obat->obat_stok; ?> <?= $obat->obat_satuan; ?> )</option>
 									<?php
 									}
 									?>

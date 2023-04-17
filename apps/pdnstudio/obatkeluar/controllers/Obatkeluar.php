@@ -85,7 +85,17 @@ class Obatkeluar extends CI_Controller
 			$register_data['ok_jumlah'] 		= htmlspecialchars($this->input->post('jumlah', true));
 			$register_data['ok_obatkode'] 		= str_replace(' ', '', $kode_obat);
 			$register_data['ok_create'] 		= date('Y-m-d H:i:s');
-
+			
+			//Cek stok, jika obat keluar melebihi stok, maka akan ditolak
+			$jml_stok = $this->M_najzmi->cekJml($register_data['ok_obatkode']);
+			$hasil_jml = $jml_stok - $register_data['ok_jumlah'];
+			if ($hasil_jml < 0){
+				$message = "MAAF, Permintaan " . $this->title() . " melebihi stok yang dimiliki";
+				$this->session->set_flashdata('error', $message);
+				redirect(base_url($this->ClassNama() . '/add'), 'refresh');
+			}
+			
+			
 			$input = $this->M_najzmi->save($register_data);
 
 			if ($input) {
@@ -114,6 +124,13 @@ class Obatkeluar extends CI_Controller
 			$ok = $this->M_najzmi->edit($_id);
 			$this->data['kode_obat'] = $ok->ok_obatkode;
 			$this->data['nama_obat'] = $ok->obat_nama;
+			$this->data['obat_asal'] = [
+				'name' 			=> 'obat_asal',
+				'id' 			=> 'obat_asal',
+				'type' 			=> 'hidden',
+				'required' 		=> 'required',
+				'value' 		=> $ok->ok_jumlah,
+			];
 			$this->data['id'] = [
 				'name' 			=> 'id',
 				'id' 			=> 'id',
@@ -153,7 +170,17 @@ class Obatkeluar extends CI_Controller
 			$register_data['ok_obatkode'] 		= str_replace(' ', '', $kode_obat);
 			$_id 								= htmlspecialchars(base64_decode($this->input->post('id', true)));
 
-			$this->load->model($this->MainModel(), 'M_najzmi');
+			//Cek stok, jika obat keluar melebihi stok, maka akan ditolak
+			$obat_asal 			= htmlspecialchars($this->input->post('obat_asal', true));
+			$jml_stok 			= $this->M_najzmi->cekJml($register_data['ok_obatkode']);
+			$hasil_jml_awal 	= $jml_stok + $obat_asal;
+			$hasil_jml 			= $hasil_jml_awal - $register_data['ok_jumlah'];
+			if ($hasil_jml < 0){
+				$message = "MAAF, Permintaan " . $this->title() . " melebihi stok yang dimiliki";
+				$this->session->set_flashdata('error', $message);
+				redirect(base_url($this->ClassNama()), 'refresh');
+			}
+			
 			$input = $this->M_najzmi->update($register_data, $_id);
 
 			if ($input) {

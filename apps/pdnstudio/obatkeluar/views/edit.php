@@ -16,6 +16,7 @@
 				<div class="tile">
 					<?= form_open_multipart(base_url($pdn_uform), 'class="form-horizontal" role="form"');
 					echo form_input($id);
+					echo form_input($obat_asal);
 					?>
 					<div class="tile-body">
 						<div class="form-group row">
@@ -25,7 +26,7 @@
 									<option value="<?= $kode_obat; ?>">-- <bold><?= $kode_obat; ?> | <?= $nama_obat; ?></bold> --</option>
 									<?php foreach ($dtobat as $obat) {
 									?>
-										<option value="<?= $obat->obat_kode; ?>"><?= $obat->obat_kode; ?> | <?= $obat->obat_nama; ?></option>
+										<option value="<?= $obat->obat_kode; ?>"><?= $obat->obat_kode; ?> | <?= $obat->obat_nama; ?> ( Stok : <?= $obat->obat_stok; ?> <?= $obat->obat_satuan; ?> )</option>
 									<?php
 									}
 									?>

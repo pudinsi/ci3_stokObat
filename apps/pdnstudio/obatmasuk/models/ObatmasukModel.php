@@ -41,7 +41,7 @@ class ObatmasukModel extends CI_Model
 
     function db_get()
     {
-        $this->db->select('id_obat, obat_nama, obat_kode');
+        $this->db->select('id_obat, obat_nama, obat_kode, obat_stok, obat_satuan');
         $this->_result = $this->db->get('obat')->result();
         if ($this->_result) {
             return $this->_result;

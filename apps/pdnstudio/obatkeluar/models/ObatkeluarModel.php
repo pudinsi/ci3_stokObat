@@ -38,10 +38,18 @@ class ObatkeluarModel extends CI_Model
      * @var Array
      **/
     private $_retarr = array();
-
+	
+	function cekJml($idobat)
+    {
+        $this->db->select('id_obat,obat_stok');
+		$this->db->where('obat_kode',$idobat);
+        $this->_result = $this->db->get('obat')->row();
+        return $this->_result->obat_stok;
+    }
+	
     function db_get()
     {
-        $this->db->select('id_obat, obat_nama, obat_kode');
+        $this->db->select('id_obat, obat_nama, obat_kode, obat_stok, obat_satuan');
         $this->_result = $this->db->get('obat')->result();
         if ($this->_result) {
             return $this->_result;
